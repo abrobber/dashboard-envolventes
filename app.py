@@ -7,9 +7,8 @@ st.set_page_config(page_title="Dashboard Envolventes", layout="wide")
 st.title("📊 Detección de Patrones Envolventes")
 
 df = obtener_datos()
-
-
 df = detectar_patron_5velas(df)
+fig = go.Figure()
 
 # Marcadores en el gráfico
 fig.add_trace(go.Scatter(
@@ -29,7 +28,7 @@ fig.add_trace(go.Scatter(
 ))
 
 
-fig = go.Figure()
+
 
 fig.add_trace(go.Candlestick(
     x=df['time'],
