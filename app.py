@@ -2,6 +2,8 @@ import streamlit as st
 import plotly.graph_objs as go
 from datos_twelve import obtener_datos
 from patrones import detectar_patron_5velas
+from patrones import detectar_envolventes, detectar_patron_5velas
+
 
 st.set_page_config(page_title="Dashboard Envolventes", layout="wide")
 st.title("📊 Detección de Patrones Envolventes")
