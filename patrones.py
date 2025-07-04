@@ -1,3 +1,5 @@
+import pandas as pd
+
 def cuerpo_dominante(df, idx, umbral=0.7):
     o, h, l, c = df.loc[idx, ['open', 'high', 'low', 'close']]
     cuerpo = abs(c - o)
