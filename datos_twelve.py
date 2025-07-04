@@ -6,7 +6,7 @@ def cargar_configuracion(ruta="config.yaml"):
     with open(ruta, "r") as f:
         return yaml.safe_load(f)
 
-def obtener_datos():
+def obtener_datos(symbol):
     config = cargar_configuracion()
     url = (
         f"https://api.twelvedata.com/time_series?"
