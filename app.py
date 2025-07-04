@@ -1,13 +1,33 @@
 import streamlit as st
 import plotly.graph_objs as go
 from datos_twelve import obtener_datos
-from patrones import detectar_envolventes
+from patrones import detectar_patron_5velas
 
 st.set_page_config(page_title="Dashboard Envolventes", layout="wide")
 st.title("📊 Detección de Patrones Envolventes")
 
 df = obtener_datos()
-df = detectar_envolventes(df)
+
+
+df = detectar_patron_5velas(df)
+
+# Marcadores en el gráfico
+fig.add_trace(go.Scatter(
+    x=df[df['prediccion_sexta'] == 'CALL']['time'],
+    y=df[df['prediccion_sexta'] == 'CALL']['low'] * 0.993,
+    mode='markers',
+    marker=dict(symbol='star', size=14, color='green'),
+    name='🔼 Predicción CALL'
+))
+
+fig.add_trace(go.Scatter(
+    x=df[df['prediccion_sexta'] == 'PUT']['time'],
+    y=df[df['prediccion_sexta'] == 'PUT']['high'] * 1.007,
+    mode='markers',
+    marker=dict(symbol='star', size=14, color='red'),
+    name='🔽 Predicción PUT'
+))
+
 
 fig = go.Figure()
 
@@ -44,6 +64,12 @@ fig.update_layout(
 )
 
 st.plotly_chart(fig, use_container_width=True)
+
+st.subheader("📢 Últimas predicciones (vela 6)")
+
+preds = df.dropna(subset=['prediccion_sexta'])[['time', 'prediccion_sexta']].tail(5)
+st.table(preds.rename(columns={'time': 'Hora', 'prediccion_sexta': 'Señal'}))
+
 
 # Alertas en la última vela
 ultima = df.iloc[-1]
