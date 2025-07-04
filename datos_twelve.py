@@ -10,7 +10,7 @@ def obtener_datos():
     config = cargar_configuracion()
     url = (
         f"https://api.twelvedata.com/time_series?"
-        f"symbol={config['symbol']}&interval={config['interval']}&outputsize={config['outputsize']}"
+        f"symbol={symbol}&interval={config['interval']}&outputsize={config['outputsize']}"
         f"&apikey={config['api_key']}&format=JSON"
     )
     resp = requests.get(url)
