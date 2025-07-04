@@ -7,6 +7,7 @@ st.set_page_config(page_title="Dashboard Envolventes", layout="wide")
 st.title("📊 Detección de Patrones Envolventes")
 
 df = obtener_datos()
+df = detectar_envolventes(df)   
 df = detectar_patron_5velas(df)
 fig = go.Figure()
 
