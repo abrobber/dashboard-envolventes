@@ -3,6 +3,9 @@ import plotly.graph_objs as go
 from datos_twelve import obtener_datos
 from patrones import detectar_patron_5velas
 from patrones import detectar_envolventes, detectar_patron_5velas
+from patrones import detectar_patron_5velas, detectar_envolventes
+
+
 
 
 st.set_page_config(page_title="Dashboard Envolventes", layout="wide")
@@ -18,9 +21,8 @@ symbol = st.selectbox("🌐 Selecciona un par de divisas", divisas_populares)
 
 
 df = obtener_datos(symbol)
-
-df = detectar_envolventes(df)   
-df = detectar_patron_5velas(df)
+df = detectar_envolventes(df)
+df, rectangulos, detalles = detectar_patron_5velas(df)
 fig = go.Figure()
 
 # Marcadores en el gráfico
@@ -82,6 +84,18 @@ st.subheader("📢 Últimas predicciones (vela 6)")
 preds = df.dropna(subset=['prediccion_sexta'])[['time', 'prediccion_sexta']].tail(5)
 st.table(preds.rename(columns={'time': 'Hora', 'prediccion_sexta': 'Señal'}))
 
+for r in rectangulos:
+    fig.add_shape(
+        type='rect',
+        xref='x', yref='y',
+        x0=r['x0'], x1=r['x1'],
+        y0=r['y0'], y1=r['y1'],
+        fillcolor='rgba(200, 200, 255, 0.2)',
+        line=dict(width=0),
+        layer='below'
+    )
+st.subheader("📌 Detalles de patrones detectados")
+st.dataframe(detalles.tail(10), use_container_width=True)
 
 # Alertas en la última vela
 ultima = df.iloc[-1]
