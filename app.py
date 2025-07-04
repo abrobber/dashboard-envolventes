@@ -8,7 +8,17 @@ from patrones import detectar_envolventes, detectar_patron_5velas
 st.set_page_config(page_title="Dashboard Envolventes", layout="wide")
 st.title("📊 Detección de Patrones Envolventes")
 
-df = obtener_datos()
+# Lista de símbolos populares (puedes ajustar según proveedor)
+divisas_populares = [
+    "EUR/USD", "USD/JPY", "GBP/USD", "USD/CHF", "USD/CAD",
+    "AUD/USD", "NZD/USD", "EUR/JPY", "EUR/GBP", "GBP/JPY"
+]
+
+symbol = st.selectbox("🌐 Selecciona un par de divisas", divisas_populares)
+
+
+df = obtener_datos(symbol)
+
 df = detectar_envolventes(df)   
 df = detectar_patron_5velas(df)
 fig = go.Figure()
